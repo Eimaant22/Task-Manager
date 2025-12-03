@@ -4,7 +4,7 @@ import { LuPaperclip } from "react-icons/lu";
 import Progress from "../Progress";
 import AvatarGroup from "../AvatarGroup";
 
-const TaskCard = (
+const TaskCard = ({
   title,
   description,
   priority,
@@ -16,7 +16,7 @@ const TaskCard = (
   attachmentCount,
   completedTodoCount,
   todoChecklist,
-  onClick
+  onClick}
 ) => {
 
     const getStatusTagColor = () => {
@@ -79,7 +79,7 @@ const getPriorityTagColor = () => {
   <p className="text-[13px] text-gray-700/80 font-medium mt-2 mb-2 leading-[18px]">
   Task Done:{" "}
   <span className="font-semibold text-gray-700">
-    {completedTodoCount} / {todoChecklist.length || 0}
+    {completedTodoCount} / {todoChecklist?.length || 0}
   </span>
 </p>
 

@@ -62,10 +62,10 @@ const ManageUsers = () => {
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-      {allUsers.map((user)=>{
+      {allUsers.map((user)=>
         <UserCard
          key={user._id} userInfo={user}/>
-      })}
+      )}
 
     </div>
   </div>

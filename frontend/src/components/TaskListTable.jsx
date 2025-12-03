@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 const TaskListTable = ({ tableData }) => {
   
@@ -54,7 +55,7 @@ const TaskListTable = ({ tableData }) => {
   <tr key={task._id} className="border-t border-gray-200">
     {/* Task Name */}
     <td className="my-3 mx-4 text-gray-700 text-[13px] line-clamp-1 overflow-hidden">
-      {task.name}
+      {task.title}
     </td>
 
     {/* Status */}
