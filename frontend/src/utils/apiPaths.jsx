@@ -25,7 +25,9 @@ export const API_PATHS = {
     CREATE_TASK: "/api/tasks", // Create a new task (Admin only)
     UPDATE_TASK: (taskId) => `/api/tasks/${taskId}`, // Update task details
     DELETE_TASK: (taskId) => `/api/tasks/${taskId}`, // Delete a task (Admin only)
-
+ // ✅ Missing backend routes added
+  UPDATE_TASK_STATUS: (taskId) => `/api/tasks/${taskId}/status`,
+  UPDATE_TODO_CHECKLIST: (taskId) => `/api/tasks/${taskId}/todo`,
 
   },
   REPORTS:{
@@ -35,7 +37,9 @@ export const API_PATHS = {
   }
 };
 
-//// check neechy walon paths
- taskRouter.put("/:id/status", protect, updateTaskStatus); // Update task status 
- taskRouter.put("/:id/todo", protect, updateTaskChecklist); // Update task checklist
+
+ 
+// //// check neechy walon paths
+//  taskRouter.put("/:id/status", protect, updateTaskStatus); // Update task status 
+//  taskRouter.put("/:id/todo", protect, updateTaskChecklist); // Update task checklist
  

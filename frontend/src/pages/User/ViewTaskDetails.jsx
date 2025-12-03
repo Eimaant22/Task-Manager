@@ -6,6 +6,7 @@ import { API_PATHS } from '../../utils/apiPaths';
 import AvatarGroup from '../../components/AvatarGroup';
 import moment from 'moment';
 import { LuSquareArrowOutUpRight } from 'react-icons/lu';
+import { Theater } from 'lucide-react';
 
 const ViewTaskDetails = () => {
   const { id } = useParams();
@@ -38,33 +39,57 @@ const ViewTaskDetails = () => {
   };
 
   // handle todo check
-  const updateTodoChecklist = async (index) => {
-const todoChecklist = [...task?.todoChecklist];
-const taskId = id;
 
-if (todoChecklist && todoChecklist[index]) {
-  todoChecklist[index].completed = !todoChecklist[index].completed;
+
+  const updateTodoChecklist = async (index) => {
+  const updatedChecklist = [...task.todoChecklist];
+  const taskId = id;
+
+  // Toggle the selected checklist item
+  updatedChecklist[index].completed = !updatedChecklist[index].completed;
 
   try {
-    const response = await axiosInstance.put(
+    // 1️⃣ Update checklist in backend
+    const checklistResponse = await axiosInstance.put(
       API_PATHS.TASKS.UPDATE_TODO_CHECKLIST(taskId),
-      { todoChecklist }
+      { todoChecklist: updatedChecklist }
     );
 
-    if (response.status === 200) {
-      setTask(response.data?.task || task);
-    } else {
-      // Optionally revert the toggle if the API call fails.
-      todoChecklist[index].completed = !todoChecklist[index].completed;
+    if (checklistResponse.status === 200) {
+      // Update local task state
+      const updatedTask = checklistResponse.data.task;
+      setTask(updatedTask);
+
+      // 2️⃣ Calculate new status
+      const total = updatedChecklist.length;
+      const done = updatedChecklist.filter((x) => x.completed).length;
+
+      let newStatus = updatedTask.status; // default = no change
+
+      if (done === 0) {
+        newStatus = "Pending";
+      } else if (done > 0 && done < total) {
+        newStatus = "In Progress";
+      } else if (done === total) {
+        newStatus = "Completed";
+      }
+
+      // 3️⃣ Only call API if status actually changed
+      if (updatedTask.status !== newStatus) {
+        await axiosInstance.put(
+          API_PATHS.TASKS.UPDATE_TASK_STATUS(taskId),
+          { status: newStatus }
+        );
+
+        // Refresh the task details to stay in sync
+        getTaskDetailsByID();
+      }
     }
   } catch (error) {
-    // Handle error if needed
-    todoChecklist[index].completed = !todoChecklist[index].completed;
+    console.error("Error updating checklist:", error);
   }
-}
+};
 
-
-  };
 
   // Handle attachment link click
   const handleLinkClick = (link) => {
@@ -213,3 +238,30 @@ const Attachment = ({ link, index, onClick }) => {
 };
 
 
+// oper gpt wala upsdatetodolist likha HiAcademicCap,neechy wala video wala Theater  const updateTodoChecklist = async (index) => {
+// const todoChecklist = [...task?.todoChecklist];
+// const taskId = id;
+
+// if (todoChecklist && todoChecklist[index]) {
+//   todoChecklist[index].completed = !todoChecklist[index].completed;
+
+//   try {
+//     const response = await axiosInstance.put(
+//       API_PATHS.TASKS.UPDATE_TODO_CHECKLIST(taskId),
+//       { todoChecklist }
+//     );
+
+//     if (response.status === 200) {
+//       setTask(response.data?.task || task);
+//     } else {
+//       // Optionally revert the toggle if the API call fails.
+//       todoChecklist[index].completed = !todoChecklist[index].completed;
+//     }
+//   } catch (error) {
+//     // Handle error if needed
+//     todoChecklist[index].completed = !todoChecklist[index].completed;
+//   }
+// }
+
+
+//   };
