@@ -16,7 +16,8 @@ import UserDashboard from "./pages/User/UserDashboard.jsx";
 import MyTasks from "./pages/User/MyTasks";
 import ViewTaskDetails from "./pages/User/ViewTaskDetails.jsx";
 import PrivateRoute from "./routes/PrivateRoute.jsx";
-import UserProvider, { UserContext } from "./context/UserContext.jsx";
+import UserProvider from "./context/UserContext.jsx";
+import { UserContext } from "./context/UserContext.jsx";
 
 // Sends "/" to the right place depending on login state and role
 const Root = () => {
