@@ -1,7 +1,7 @@
 // utils/apiPaths.jsx
 
 
-export const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+export const BASE_URL = "https://task-manager-backend-six-jet.vercel.app" || "http://localhost:8000";
 
 export const API_PATHS = {
   AUTH: {
