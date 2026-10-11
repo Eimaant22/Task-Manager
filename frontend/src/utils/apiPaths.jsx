@@ -1,6 +1,6 @@
 // utils/apiPaths.jsx
 
-// Set VITE_API_URL in your frontend host (e.g. https://your-backend.onrender.com)
+
 export const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export const API_PATHS = {
