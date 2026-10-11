@@ -31,8 +31,11 @@ connectDB();
 
 // Middleware to parse incoming requests
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // ✅ fix: express.urlencoded needs to be called
+app.use(express.urlencoded({ extended: true })); // fix: express.urlencoded needs to be called
 
+app.get("/"),(req,res)=>{
+    res.send("Backend is running")
+}
 // API endpoints
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -42,6 +45,7 @@ app.use("/api/reports", reportRoutes);
 
 // Serve uploaded images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 // Start server
 const PORT = process.env.PORT || 5000;
