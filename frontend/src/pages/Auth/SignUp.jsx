@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { API_PATHS } from "../../utils/apiPaths.jsx";
 // NOTE: the filename must match this import EXACTLY (case-sensitive on Linux hosts)
+
 import uploadImage from "../../utils/uploadImage.jsx";
 import axiosInstance from "../../utils/axiosInstance.jsx";
 
