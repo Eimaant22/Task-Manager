@@ -114,6 +114,7 @@ const taskDistribution = taskStatuses.reduce((acc, status) => {
     taskDistributionRaw.find((item) => item._id === status)?.count || 0;
   return acc;
 }, {});
+taskDistribution["All"] = totalTasks; // total count (frontend reads "All")
 
 //  Task distribution by priority
 const taskPriorities = ["Low", "Medium", "High"];
@@ -275,13 +276,13 @@ const updateTask = async (req, res) => {
     const task = await Task.findById(req.params.id);
 
     if (!task) {
-      return res.status(484).json({ message: "Task not found" });
+      return res.status(404).json({ message: "Task not found" });
     }
     //Update field if new value is provided otherwise keep it same
     task.title = req.body.title || task.title;
     task.description = req.body.description || task.description;
     task.priority = req.body.priority || task.priority;
-    task.dueDate = req.body.dugDate || task.dueDate;
+    task.dueDate = req.body.dueDate || task.dueDate;
     task.todoChecklist = req.body.todoChecklist || task.todoChecklist;
     task.attachments = req.body.attachments || task.attachments;
 
@@ -347,9 +348,12 @@ const updateTaskChecklist = async (req, res) => {
     const { todoChecklist } = req.body;
 
     const task = await Task.findById(req.params.id);
-    if (!task) return res.status(484).json({ message: "Task not found" });
+    if (!task) return res.status(404).json({ message: "Task not found" });
 
-    if (!task.assignedTo.includes(req.user._id) && req.user.role !== "admin") {
+    const isAssigned = task.assignedTo.some(
+      (userId) => userId.toString() === req.user._id.toString()
+    );
+    if (!isAssigned && req.user.role !== "admin") {
       return res
         .status(403)
         .json({ message: "Not authorized to update checklist" });

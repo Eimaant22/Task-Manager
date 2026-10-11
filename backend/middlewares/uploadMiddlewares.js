@@ -1,21 +1,8 @@
-import fs from "fs";
 import multer from "multer";
 
-// Ensure upload folder exists
-const uploadPath = "uploads/";
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath);
-}
-
-// Storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
+// Keep the file in memory; the route then sends it to Cloudinary
+// (or to the local uploads/ folder if Cloudinary is not configured).
+const storage = multer.memoryStorage();
 
 // File Filter
 const fileFilter = (req, file, cb) => {

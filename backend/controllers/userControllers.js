@@ -19,7 +19,7 @@ const usersWithTaskCounts = await Promise.all(
 
     const inProgressTasks = await Task.countDocuments({
       assignedTo: user._id,
-      status: "In progress",
+      status: "In Progress",
     });
 
     const completedTasks = await Task.countDocuments({
@@ -63,8 +63,3 @@ export{
     getUsers,
     getUserById
 }
-
-
-
-
-

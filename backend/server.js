@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import connectDB from './config/db.js'; // Add .js if using ES Modules
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
@@ -10,7 +11,13 @@ import reportRoutes from './routes/reportRoutes.js';
 
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
+
+// Needed behind hosting proxies (Render, Railway, etc.) so https links are correct
+app.set("trust proxy", 1);
 
 // Middleware to handle CORS
 app.use(cors({
@@ -33,9 +40,8 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/reports", reportRoutes);
 
 
-// Serve uploads folder (uncomment this l=below written line while running final proj)
-
-// app.use("/uploads", express.static(path.join(__dirname, "uploads")))
+// Serve uploaded images
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Start server
 const PORT = process.env.PORT || 5000;

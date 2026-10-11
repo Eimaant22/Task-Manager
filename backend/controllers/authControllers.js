@@ -73,7 +73,7 @@ if (!isMatch) {
 return res.status(401).json({ message: "Invalid email or password" });
 }
       // Return user data with JWT
-    res.status(201).json({
+    res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -94,7 +94,7 @@ const getUserProfile = async (req, res) => {
 try {
 const user = await User.findById(req.user.id).select("-password");
  if (!user) {
-return res.status(484).json({ message: "User not found" });
+return res.status(404).json({ message: "User not found" });
 }
 res.json(user);
 } catch (error) {
@@ -110,10 +110,13 @@ const updateUserProfile = async (req, res) => {
 try {
 const user = await User.findById(req.user.id);
 if (!user) {
-return res.status(484).json({ message: "User not found" });
+return res.status(404).json({ message: "User not found" });
 }
 user.name = req.body.name || user.name;
 user.email = req.body.email || user.email;
+if (req.body.profileImageUrl) {
+user.profileImageUrl = req.body.profileImageUrl;
+}
 if (req.body.password) {
 const salt = await bcrypt.genSalt(10);
 user.password = await bcrypt.hash (req.body.password, salt);
@@ -124,6 +127,7 @@ _id: updatedUser._id,
 name: updatedUser.name,
 email: updatedUser.email,
 role: updatedUser.role,
+profileImageUrl: updatedUser.profileImageUrl,
 token: generateToken (updatedUser._id),
 });
 }catch(error){
