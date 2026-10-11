@@ -1,6 +1,7 @@
-// utils/apiPaths.js
+// utils/apiPaths.jsx
 
-export const BASE_URL = "http://localhost:8000";
+// Set VITE_API_URL in your frontend host (e.g. https://your-backend.onrender.com)
+export const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export const API_PATHS = {
   AUTH: {
@@ -25,21 +26,17 @@ export const API_PATHS = {
     CREATE_TASK: "/api/tasks", // Create a new task (Admin only)
     UPDATE_TASK: (taskId) => `/api/tasks/${taskId}`, // Update task details
     DELETE_TASK: (taskId) => `/api/tasks/${taskId}`, // Delete a task (Admin only)
- // ✅ Missing backend routes added
-  UPDATE_TASK_STATUS: (taskId) => `/api/tasks/${taskId}/status`,
-  UPDATE_TODO_CHECKLIST: (taskId) => `/api/tasks/${taskId}/todo`,
-
+    UPDATE_TASK_STATUS: (taskId) => `/api/tasks/${taskId}/status`,
+    UPDATE_TODO_CHECKLIST: (taskId) => `/api/tasks/${taskId}/todo`,
   },
-  REPORTS:{
-    EXPORT_TASKS:"/api/reports/export/tasks",
-    EXPORT_USERS:"/api/reports/export/users"
 
-  }
+  REPORTS: {
+    EXPORT_TASKS: "/api/reports/export/tasks",
+    EXPORT_USERS: "/api/reports/export/users",
+  },
+
+  // ✅ Added: image upload endpoint (used by utils/uploadImage.jsx)
+  IMAGE: {
+    UPLOAD_IMAGE: "/api/auth/upload-image",
+  },
 };
-
-
- 
-// //// check neechy walon paths
-//  taskRouter.put("/:id/status", protect, updateTaskStatus); // Update task status 
-//  taskRouter.put("/:id/todo", protect, updateTaskChecklist); // Update task checklist
- 

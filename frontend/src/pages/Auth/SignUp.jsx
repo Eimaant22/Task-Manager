@@ -4,11 +4,12 @@ import Input from "../../components/inputs/Input.jsx";
 import { validateEmail } from "../../utils/emailValidator.jsx";
 import ProfilePhotoSelector from "../../components/inputs/ProfilePhotoSelector.jsx";
 import { Link } from "react-router-dom";
-import  { UserContext } from "../../context/userContext.jsx";
+import  { UserContext } from "../../context/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { API_PATHS } from "../../utils/apiPaths.jsx";
-import uploadImage from "../../utils/uploadimage.jsx";
+// NOTE: the filename must match this import EXACTLY (case-sensitive on Linux hosts)
+import uploadImage from "../../utils/uploadImage.jsx";
 import axiosInstance from "../../utils/axiosInstance.jsx";
 
 const SignUp = () => {
@@ -55,7 +56,14 @@ const SignUp = () => {
         const uploadImageRes=await uploadImage(profilePic)
         profileImageUrl=uploadImageRes.imageUrl || ""
       }
-      const response=await axiosInstance.post(API_PATHS.AUTH.REGISTER ,{name:fullName,email,password,adminInviteToken})
+      // FIX: profileImageUrl is now sent to the backend
+      const response=await axiosInstance.post(API_PATHS.AUTH.REGISTER ,{
+        name:fullName,
+        email,
+        password,
+        profileImageUrl,
+        adminInviteToken,
+      })
       const {token,role}=response.data
       updateUser(response.data)
 
@@ -69,7 +77,6 @@ const SignUp = () => {
          navigate("/user/dashboard")
       }
     }
-      console.log("Logging in with:", email, password);
     } 
     catch (error) {
       if(error.response && error.response.data.message){

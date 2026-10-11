@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useUserAuth } from "../../hooks/useUserAuth.jsx";
-import { UserContext } from "../../context/userContext.jsx";
+import { UserContext } from "../../context/UserContext.jsx";
 import DashboardLayout from "../../components/layouts/DashboardLayout.jsx";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance.jsx"; // adjust path if needed

@@ -6,7 +6,7 @@ import Input from "../../components/inputs/Input.jsx";
 import { Link } from "react-router-dom";
 import { validateEmail } from "../../utils/emailValidator.jsx";
 import axiosInstance from "../../utils/axiosInstance.jsx";
-import { UserContext } from "../../context/userContext.jsx";
+import { UserContext } from "../../context/UserContext.jsx";
 import { API_PATHS } from "../../utils/apiPaths.jsx";
 
 const Login = () => {
